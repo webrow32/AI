@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder
+		location="classpath:credentials/watson_credentials.properties" />
+	<bean class="com.fpt.inquiry.util.ConversationUtility"
+		name="convUtil" scope="singleton">
+		<property name="workspaceId" value="${conv.workspaceId}" />
+		<property name="conversationService">
+			<bean
+				class="com.ibm.watson.developer_cloud.conversation.v1_experimental.ConversationService"
+				name="conversationService">
+				<constructor-arg name="versionDate" value="2016-05-19"></constructor-arg>
+				<constructor-arg name="username" value="${conv.username}" />
+				<constructor-arg name="password" value="${conv.password}" />
+				<property name="endPoint" value="${conv.endpoint}" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean class="com.fpt.inquiry.entities.ServiceCredential"
+		name="speechToTextCredential" scope="singleton">
+		<property name="username" value="${stt.username}" />
+		<property name="password" value="${stt.password}" />
+		<property name="endpoint" value="${stt.endpoint}" />
+	</bean>
+	
+	<bean class="com.fpt.inquiry.entities.ServiceCredential"
+		name="textToSpeechCredential" scope="singleton">
+		<property name="username" value="${tts.username}" />
+		<property name="password" value="${tts.password}" />
+		<property name="endpoint" value="${tts.endpoint}" />
+	</bean>
+
+
+</beans>
+
